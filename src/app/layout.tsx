@@ -2,6 +2,8 @@ import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import { AppSidebar } from "~/components/app-sidebar";
+import { SidebarProvider } from "~/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -19,7 +21,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SidebarProvider>
+          <div className="flex min-h-screen">
+            <AppSidebar className="w-64 border-r" />
+            <main className="flex-1 p-6">
+              {children}
+            </main>
+          </div>
+        </SidebarProvider>
+      </body>
     </html>
   );
 }

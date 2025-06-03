@@ -1,5 +1,7 @@
+'use client'
+
 import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, ChevronDown } from "lucide-react"
 
 import {
   Sidebar,
@@ -19,136 +21,77 @@ import {
 const data = {
   navMain: [
     {
-      title: "Getting Started",
+      title: "Business Center",
       url: "#",
       items: [
         {
-          title: "Installation",
+          title: "Overview",
           url: "#",
         },
         {
-          title: "Project Structure",
+          title: "Analytics",
+          url: "#",
+        },
+        {
+          title: "Reports",
           url: "#",
         },
       ],
     },
     {
-      title: "Building Your Application",
+      title: "Creatives",
       url: "#",
       items: [
         {
-          title: "Routing",
+          title: "Ad Library",
           url: "#",
         },
         {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
+          title: "Creative Hub",
           url: "#",
         },
         {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
+          title: "Templates",
           url: "#",
         },
       ],
     },
     {
-      title: "API Reference",
+      title: "Catalog",
       url: "#",
       items: [
         {
-          title: "Components",
+          title: "Products",
           url: "#",
         },
         {
-          title: "File Conventions",
+          title: "Collections",
           url: "#",
         },
         {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
+          title: "Categories",
           url: "#",
         },
       ],
     },
     {
-      title: "Architecture",
+      title: "Campaign Management",
       url: "#",
       items: [
         {
-          title: "Accessibility",
+          title: "Campaigns",
           url: "#",
         },
         {
-          title: "Fast Refresh",
+          title: "Ad Groups",
           url: "#",
         },
         {
-          title: "Next.js Compiler",
+          title: "Ads",
           url: "#",
         },
         {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
+          title: "Audiences",
           url: "#",
         },
       ],
@@ -157,6 +100,15 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [openItems, setOpenItems] = React.useState<Record<string, boolean>>({});
+
+  const toggleItem = (title: string) => {
+    setOpenItems(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }));
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -168,8 +120,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <GalleryVerticalEnd className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
+                  <span className="font-medium">TikTok Ads</span>
+                  <span className="">Dashboard</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -181,17 +133,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {item.title}
-                  </a>
+                <SidebarMenuButton 
+                  asChild 
+                  onClick={() => toggleItem(item.title)}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-medium">{item.title}</span>
+                    <ChevronDown 
+                      className={`size-4 transition-transform ${openItems[item.title] ? 'rotate-180' : ''}`}
+                    />
+                  </div>
                 </SidebarMenuButton>
-                {item.items?.length ? (
+                {item.items?.length && openItems[item.title] ? (
                   <SidebarMenuSub>
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
+                    {item.items.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild>
+                          <a href={subItem.url}>{subItem.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
