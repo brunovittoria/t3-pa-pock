@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { GalleryVerticalEnd, ChevronDown } from "lucide-react"
+import Link from "next/link"
 
 import {
   Sidebar,
@@ -22,19 +23,19 @@ const data = {
   navMain: [
     {
       title: "Business Center",
-      url: "#",
+      url: "/dashboard/business-center",
       items: [
         {
           title: "Overview",
-          url: "#",
+          url: "/dashboard/business-center",
         },
         {
-          title: "Analytics",
-          url: "#",
+          title: "Activity Log",
+          url: "/dashboard/business-center?tab=activity",
         },
         {
-          title: "Reports",
-          url: "#",
+          title: "Account Balance",
+          url: "/dashboard/business-center?tab=balance",
         },
       ],
     },
@@ -115,7 +116,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link href="/dashboard">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <GalleryVerticalEnd className="size-4" />
                 </div>
@@ -123,7 +124,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className="font-medium">TikTok Ads</span>
                   <span className="">Dashboard</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -150,7 +151,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>{subItem.title}</a>
+                          <Link href={subItem.url}>{subItem.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
